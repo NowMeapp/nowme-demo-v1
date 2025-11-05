@@ -10,6 +10,17 @@ const nextConfig = {
         ]
       }
     ];
+  },
+
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/analyze",
+        permanent: false // 本番で恒久的にするなら true にしてOK
+      }
+    ];
   }
 };
+
 module.exports = nextConfig;
