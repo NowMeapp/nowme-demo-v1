@@ -1,0 +1,13 @@
+# Node.js / Next.js
+node_modules
+.next
+.env.local
+.DS_Store
+package-lock.json
+
+# Build output
+out
+dist
+
+# System files
+Thumbs.db
