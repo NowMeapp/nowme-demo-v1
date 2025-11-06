@@ -89,7 +89,8 @@ export default function ResultPage() {
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "center",
-        padding: "40px 16px 120px",
+        /* 上の紫エリアを小さく（今の約1/3）に変更 */
+        padding: "14px 16px 120px",
         fontFamily: "system-ui",
         boxSizing: "border-box",
       }}
