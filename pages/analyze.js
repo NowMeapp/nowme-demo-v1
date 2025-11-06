@@ -1,5 +1,5 @@
 // pages/analyze.js
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
 function fallbackTitle(src) {
@@ -18,6 +18,9 @@ export default function Analyze() {
   const [resultFixed, setResultFixed] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
   const router = useRouter();
+
+  // ref: 結果セクションにスクロールするため
+  const previewRef = useRef(null);
 
   const runQuick = async () => {
     if (!text.trim()) return;
@@ -45,6 +48,23 @@ export default function Analyze() {
     // ここでは nm-latest-result は保存しない（gateでfull結果を保存する）
   };
 
+  // previewがセットされたら自動でスクロール
+  useEffect(() => {
+    if (!preview) return;
+    // 少し待ってからスクロール（レンダリング完了を待つ）
+    const t = setTimeout(() => {
+      const el = previewRef.current;
+      if (!el) return;
+      // スムーズスクロール（"start" で要素の上端に寄せる）
+      // 少しオフセット（上の余白）を作るために window.scrollTo を使う
+      const rect = el.getBoundingClientRect();
+      const offset = 16; // 上に余白を作るピクセル数
+      const targetY = window.scrollY + rect.top - offset;
+      window.scrollTo({ top: targetY, behavior: "smooth" });
+    }, 80);
+    return () => clearTimeout(t);
+  }, [preview]);
+
   const handleChange = (e) => {
     setText(e.target.value);
     setPreview(null);
@@ -64,19 +84,8 @@ export default function Analyze() {
   };
 
   return (
-    <main
-      style={{
-        maxWidth: 720,
-        width: "100%",
-        margin: "0 auto",
-        padding: 16,
-        fontFamily: "system-ui",
-        boxSizing: "border-box",
-      }}
-    >
-      <h1 style={{ fontSize: 30, fontWeight: 700, marginBottom: 8 }}>
-        🧠 あなたの日記を10秒で整理・分析
-      </h1>
+    <main style={{ maxWidth: 720, width: "100%", margin: "0 auto", padding: 16, fontFamily: "system-ui", boxSizing: "border-box" }}>
+      <h1 style={{ fontSize: 30, fontWeight: 700, marginBottom: 8 }}>🧠 あなたの日記を10秒で整理・分析</h1>
       <p style={{ color: "#666", marginBottom: 12 }}>
         貼り付け → まずは<strong>カテゴリ・タイトル・一言コメント</strong>を表示するよ。
       </p>
@@ -133,8 +142,10 @@ export default function Analyze() {
         )}
       </button>
 
+      {/* preview がレンダリングされるエリア。ref をここに渡す */}
       {preview && (
         <section
+          ref={previewRef}
           style={{
             marginTop: 16,
             padding: 16,
@@ -164,30 +175,14 @@ export default function Analyze() {
 
           <div style={{ marginBottom: 12 }}>
             <div style={{ fontWeight: 600, marginBottom: 6 }}>タイトル</div>
-            <div
-              style={{
-                background: "#fff",
-                border: "1px solid #ddd",
-                borderRadius: 8,
-                padding: "8px 10px",
-                fontSize: 16,
-              }}
-            >
+            <div style={{ background: "#fff", border: "1px solid #ddd", borderRadius: 8, padding: "8px 10px", fontSize: 16 }}>
               {preview.title}
             </div>
           </div>
 
           <div style={{ marginBottom: 8 }}>
             <div style={{ fontWeight: 600, marginBottom: 6 }}>コメント</div>
-            <div
-              style={{
-                background: "#fff",
-                border: "1px solid #eee",
-                borderRadius: 8,
-                padding: "8px 10px",
-                fontSize: 16,
-              }}
-            >
+            <div style={{ background: "#fff", border: "1px solid #eee", borderRadius: 8, padding: "8px 10px", fontSize: 16 }}>
               {preview.aiComment}
             </div>
           </div>
@@ -234,17 +229,7 @@ export default function Analyze() {
       </p>
 
       {/* footer copyright */}
-      <div
-        style={{
-          position: "fixed",
-          left: 12,
-          bottom: 8,
-          color: "#444",
-          fontSize: 12,
-          opacity: 0.95,
-          fontFamily: "system-ui",
-        }}
-      >
+      <div style={{ position: "fixed", left: 12, bottom: 8, color: "#444", fontSize: 12, opacity: 0.95, fontFamily: "system-ui" }}>
         © 2025 NowMe. All rights reserved.
       </div>
 

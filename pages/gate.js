@@ -123,7 +123,7 @@ export default function Gate() {
                 whiteSpace: "pre-line",
               }}
             >
-              {`NowMe公式アカウントを登録して、\n分析結果を受け取る`}
+              {`💡NowMe公式アカウントをフォローして、\n分析結果を受け取る`}
             </h2>
 
             <div
