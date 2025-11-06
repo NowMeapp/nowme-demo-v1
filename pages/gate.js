@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 
 // ✅ 公式アカウントのリンク（必要に応じて差し替えてください）
 const LINKS = {
-  line: "https://lin.ee/wwmzy4G",        // 例: LINE公式の招待URL
-  x: "https://x.com/NowMe_app_",      // 例: X(旧Twitter)
+  line: "https://lin.ee/wwmzy4G", // 例: LINE公式の招待URL
+  x: "https://x.com/NowMe_app_", // 例: X(旧Twitter)
   insta: "https://www.instagram.com/now_me_app", // 例: Instagram
 };
 
@@ -15,8 +15,8 @@ export default function Gate() {
   const [text, setText] = useState("");
   const [analyzing, setAnalyzing] = useState(true);
   const [analysisDone, setAnalysisDone] = useState(false);
-  const [ctaVisible, setCtaVisible] = useState(false);   // 1秒後に表示
-  const [followed, setFollowed] = useState(false);       // どれか押したら true
+  const [ctaVisible, setCtaVisible] = useState(false); // 1秒後に表示
+  const [followed, setFollowed] = useState(false); // どれか押したら true
   const [err, setErr] = useState("");
 
   // --- 起動時：テキスト読込 + 解析開始 + 1秒後にCTA表示 ---
@@ -35,13 +35,15 @@ export default function Gate() {
         const json = await rsp.json();
 
         // 最新結果で上書き保存
-        try { sessionStorage.removeItem("nm-latest-result"); } catch {}
+        try {
+          sessionStorage.removeItem("nm-latest-result");
+        } catch {}
         sessionStorage.setItem("nm-latest-result", JSON.stringify(json));
 
         setAnalysisDone(true);
       } catch (e) {
         console.error("gate full error:", e);
-        setErr("分析に失敗しました。もう一度お試しください。");
+        setErr("分析に失敗しました。もう一度ページをリフレッシュしてお試しください。");
       } finally {
         setAnalyzing(false);
       }
@@ -76,6 +78,7 @@ export default function Gate() {
         fontFamily: "system-ui",
         padding: 24,
         background: "#f6f7f8",
+        boxSizing: "border-box",
       }}
     >
       <div
@@ -92,8 +95,8 @@ export default function Gate() {
       >
         {/* 分析中カードはそのまま */}
         <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 6 }}>分析中…</div>
-        <div style={{ color: "#666", marginBottom: 16 }}>
-          あなたの言葉を読み取り、思考のクセと内省ヒントを作成しています。
+        <div style={{ color: "#666", marginBottom: 16, whiteSpace: "pre-line" }}>
+          {`あなたの言葉を読み取り、\n思考のクセと内省ヒントを作成しています。`}
         </div>
         <div
           aria-hidden
@@ -114,12 +117,13 @@ export default function Gate() {
             <h2
               style={{
                 textDecoration: "underline",
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: 800,
                 margin: "8px 0 10px",
+                whiteSpace: "pre-line",
               }}
             >
-              NowMe公式アカウントを登録して、分析結果を受け取る
+              {`NowMe公式アカウントを登録して、\n分析結果を受け取る`}
             </h2>
 
             <div
@@ -143,6 +147,7 @@ export default function Gate() {
                   fontWeight: 800,
                   cursor: "pointer",
                   minWidth: 140,
+                  fontSize: 16,
                 }}
               >
                 LINE をフォロー
@@ -159,6 +164,7 @@ export default function Gate() {
                   fontWeight: 800,
                   cursor: "pointer",
                   minWidth: 140,
+                  fontSize: 16,
                 }}
               >
                 X をフォロー
@@ -176,20 +182,21 @@ export default function Gate() {
                   fontWeight: 800,
                   cursor: "pointer",
                   minWidth: 140,
+                  fontSize: 16,
                 }}
               >
                 Instagram をフォロー
               </button>
             </div>
 
-            <div style={{ color: "#7a7a7a", fontSize: 12, marginTop: 4 }}>
-              ※ フォローボタンを押すと、新しいタブで公式アカウントが開きます。
+            <div style={{ color: "#7a7a7a", fontSize: 14, marginTop: 4 }}>
+              ※ フォローボタンを押すと、各アカウントのフォロー画面に遷移します。
             </div>
 
             {/* 次の動作ヒント */}
             {!followed && (
-              <div style={{ marginTop: 10, color: "#ef4444", fontSize: 13, fontWeight: 700 }}>
-                いずれかの登録ボタンを押すと、分析結果へ進みます。
+              <div style={{ marginTop: 10, color: "#ef4444", fontSize: 20, fontWeight: 700 }}>
+                いずれかのフォローボタンを押すと、分析結果へ進みます。
               </div>
             )}
             {followed && !analysisDone && (
@@ -201,6 +208,21 @@ export default function Gate() {
         )}
 
         {err && <div style={{ color: "#ef4444", marginTop: 14 }}>{err}</div>}
+      </div>
+
+      {/* footer copyright */}
+      <div
+        style={{
+          position: "fixed",
+          left: 12,
+          bottom: 8,
+          color: "#444",
+          fontSize: 12,
+          opacity: 0.95,
+          fontFamily: "system-ui",
+        }}
+      >
+        © 2025 NowMe. All rights reserved.
       </div>
 
       <style jsx>{`

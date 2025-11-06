@@ -90,6 +90,8 @@ export default function ResultPage() {
         alignItems: "flex-start",
         justifyContent: "center",
         padding: "40px 16px 120px",
+        fontFamily: "system-ui",
+        boxSizing: "border-box",
       }}
     >
       <div
@@ -102,99 +104,184 @@ export default function ResultPage() {
           padding: "28px 22px 36px",
         }}
       >
-        {/* ヘッドショット */}
-        <div style={{ textAlign: "center", marginBottom: 10 }}>
+        {/* --- 結果領域 --- */}
+        <div>
+          {/* ヘッドショット */}
+          <div style={{ textAlign: "center", marginBottom: 10 }}>
+            <div
+              style={{
+                width: 112,
+                height: 112,
+                borderRadius: "50%",
+                margin: "0 auto 12px",
+                background: "#f2f3f5",
+                display: "grid",
+                placeItems: "center",
+                overflow: "hidden",
+                boxShadow: "0 4px 12px rgba(0,0,0,.10)",
+              }}
+            >
+              {photoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={photoUrl} alt="face" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : (
+                <div style={{ fontSize: 52, color: "#9aa0a6" }}>🙂</div>
+              )}
+            </div>
+
+            {/* 投稿数 / ストリーク */}
+            <div style={{ fontSize: 14, color: "#333", fontWeight: 700 }}>
+              投稿数: {posts}　/　ストリーク: {streak}
+            </div>
+          </div>
+
+          {/* タイトル（あれば） */}
+          {data?.title && (
+            <h1
+              style={{
+                margin: "16px 0 10px",
+                textAlign: "center",
+                fontSize: 18,
+                fontWeight: 800,
+                lineHeight: 1.4,
+              }}
+            >
+              📊 日記からわかるあなたの分析結果
+            </h1>
+          )}
+
+          {/* 🧠 思考のクセ */}
+          <section style={{ marginTop: 12 }}>
+            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>🧠 思考のクセ</h2>
+            <ul style={{ margin: 0, paddingLeft: 20, lineHeight: 1.9 }}>
+              {thoughts.map((t, i) => (
+                <li key={i} style={{ color: "#222" }}>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* 💡 自分を見つめなおすためのヒント */}
+          <section style={{ marginTop: 22 }}>
+            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>💡 自分を見つめなおすためのヒント</h2>
+            <ul style={{ margin: 0, paddingLeft: 20, lineHeight: 1.9 }}>
+              {hints.map((h, i) => (
+                <li key={i} style={{ whiteSpace: "pre-line", color: "#333" }}>
+                  {h}
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        {/* ▼ 再分析ボタン + 案内文 + ソーシャルボタン群 */}
+        <div style={{ marginTop: 28, textAlign: "center" }}>
+          {/* 大きな再分析ボタン */}
+          <div style={{ marginBottom: 14 }}>
+            <button
+              onClick={() => router.push("/analyze")}
+              style={{
+                background: "#0ea5e9",
+                color: "#fff",
+                padding: "14px 20px",
+                borderRadius: 12,
+                border: "none",
+                fontWeight: 800,
+                cursor: "pointer",
+                minWidth: 280,
+                boxShadow: "0 10px 28px rgba(14,165,233,.25)",
+                fontSize: 18,
+              }}
+            >
+              他の日記も試してみる
+            </button>
+          </div>
+
+          {/* 新しい文言（フォローボタンの前） */}
+          <div style={{ marginTop: 6, marginBottom: 10, color: "#444", fontSize: 14, fontWeight: 700 }}>
+            もうすぐNowMeアプリベータ版が登場予定🚀
+            <br />
+            先行案内は公式SNSでチェック！
+          </div>
+
+          {/* フォローボタン */}
           <div
             style={{
-              width: 112,
-              height: 112,
-              borderRadius: "50%",
-              margin: "0 auto 12px",
-              background: "#f2f3f5",
-              display: "grid",
-              placeItems: "center",
-              overflow: "hidden",
-              boxShadow: "0 4px 12px rgba(0,0,0,.10)",
+              display: "flex",
+              gap: 10,
+              justifyContent: "center",
+              flexWrap: "wrap",
+              marginTop: 6,
             }}
           >
-            {photoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={photoUrl}
-                alt="face"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-            ) : (
-              <div style={{ fontSize: 52, color: "#9aa0a6" }}>🙂</div>
-            )}
-          </div>
+            <button
+              onClick={() => window.open("https://lin.ee/wwmzy4G", "_blank", "noopener,noreferrer")}
+              style={{
+                background: "#06C755",
+                color: "#fff",
+                padding: "10px 14px",
+                borderRadius: 999,
+                border: "none",
+                fontWeight: 800,
+                cursor: "pointer",
+                minWidth: 140,
+                fontSize: 16,
+              }}
+            >
+              LINE をフォロー
+            </button>
 
-          {/* 投稿数 / ストリーク */}
-          <div style={{ fontSize: 14, color: "#333", fontWeight: 700 }}>
-            投稿数: {posts}　/　ストリーク: {streak}
+            <button
+              onClick={() => window.open("https://x.com/NowMe_app_", "_blank", "noopener,noreferrer")}
+              style={{
+                background: "#111",
+                color: "#fff",
+                padding: "10px 14px",
+                borderRadius: 999,
+                border: "none",
+                fontWeight: 800,
+                cursor: "pointer",
+                minWidth: 140,
+                fontSize: 16,
+              }}
+            >
+              X をフォロー
+            </button>
+
+            <button
+              onClick={() => window.open("https://www.instagram.com/now_me_app", "_blank", "noopener,noreferrer")}
+              style={{
+                background: "linear-gradient(45deg, #f58529, #feda77, #dd2a7b, #8134af, #515bd4)",
+                color: "#fff",
+                padding: "10px 14px",
+                borderRadius: 999,
+                border: "none",
+                fontWeight: 800,
+                cursor: "pointer",
+                minWidth: 140,
+                fontSize: 16,
+              }}
+            >
+              Instagram をフォロー
+            </button>
           </div>
         </div>
+      </div>
 
-        {/* タイトル（あれば） */}
-        {data?.title && (
-          <h1
-            style={{
-              margin: "16px 0 10px",
-              textAlign: "center",
-              fontSize: 18,
-              fontWeight: 800,
-              lineHeight: 1.4,
-            }}
-          >
-            📊 日記からわかるあなたの分析結果
-          </h1>
-        )}
-
-        {/* 🧠 思考のクセ */}
-        <section style={{ marginTop: 12 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>🧠 思考のクセ</h2>
-          <ul style={{ margin: 0, paddingLeft: 20, lineHeight: 1.9 }}>
-            {thoughts.map((t, i) => (
-              <li key={i} style={{ color: "#222" }}>
-                {t}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {/* 💡 自分を見つめなおすためのヒント */}
-        <section style={{ marginTop: 22 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>
-            💡 自分を見つめなおすためのヒント
-          </h2>
-          <ul style={{ margin: 0, paddingLeft: 20, lineHeight: 1.9 }}>
-            {hints.map((h, i) => (
-              <li key={i} style={{ whiteSpace: "pre-line", color: "#333" }}>
-                {h}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {/* ▼ 追加：他の日記も試してみる */}
-        <div style={{ marginTop: 28, textAlign: "center" }}>
-          <button
-            onClick={() => router.push("/analyze")}
-            style={{
-              background: "#0ea5e9",
-              color: "#fff",
-              padding: "12px 16px",
-              borderRadius: 10,
-              border: "none",
-              fontWeight: 800,
-              cursor: "pointer",
-              minWidth: 220,
-              boxShadow: "0 6px 16px rgba(14,165,233,.25)",
-            }}
-          >
-            他の日記も試してみる
-          </button>
-        </div>
+      {/* footer copyright */}
+      <div
+        style={{
+          position: "fixed",
+          left: 12,
+          bottom: 8,
+          color: "#444",
+          fontSize: 12,
+          opacity: 0.95,
+          fontFamily: "system-ui",
+        }}
+      >
+        © 2025 NowMe. All rights reserved.
       </div>
     </main>
   );

@@ -13,7 +13,7 @@ function fallbackTitle(src) {
 
 export default function Analyze() {
   const [text, setText] = useState("");
-  const [preview, setPreview] = useState(null);          // quickの結果（画面表示専用）
+  const [preview, setPreview] = useState(null); // quickの結果（画面表示専用）
   const [loading, setLoading] = useState(false);
   const [resultFixed, setResultFixed] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
@@ -64,8 +64,17 @@ export default function Analyze() {
   };
 
   return (
-    <main style={{ maxWidth: 720, margin: "0 auto", padding: 16, fontFamily: "system-ui" }}>
-      <h1 style={{ fontSize: 20, fontWeight: 700, marginBottom: 8 }}>
+    <main
+      style={{
+        maxWidth: 720,
+        width: "100%",
+        margin: "0 auto",
+        padding: 16,
+        fontFamily: "system-ui",
+        boxSizing: "border-box",
+      }}
+    >
+      <h1 style={{ fontSize: 30, fontWeight: 700, marginBottom: 8 }}>
         🧠 あなたの日記を10秒で整理・分析
       </h1>
       <p style={{ color: "#666", marginBottom: 12 }}>
@@ -78,11 +87,17 @@ export default function Analyze() {
         placeholder="ここに日記やメモをコピペ（長いほうがより正確な分析ができるよ！）"
         style={{
           width: "100%",
-          height: 180,
+          height: "33vh", // 高さを画面の1/3くらいに
+          minHeight: 120,
           padding: 12,
           border: "1px solid #ddd",
           borderRadius: 8,
           marginBottom: 12,
+          fontSize: 16, // プレースホルダーと入力のフォントサイズを大きく
+          lineHeight: 1.5,
+          boxSizing: "border-box",
+          overflow: "auto",
+          resize: "vertical",
         }}
       />
 
@@ -97,6 +112,7 @@ export default function Analyze() {
           border: "none",
           cursor: loading || resultFixed ? "default" : "pointer",
           position: "relative",
+          fontSize: 16, // ボタンのフォントサイズを16に
         }}
       >
         {loading ? (
@@ -154,6 +170,7 @@ export default function Analyze() {
                 border: "1px solid #ddd",
                 borderRadius: 8,
                 padding: "8px 10px",
+                fontSize: 16,
               }}
             >
               {preview.title}
@@ -168,6 +185,7 @@ export default function Analyze() {
                 border: "1px solid #eee",
                 borderRadius: 8,
                 padding: "8px 10px",
+                fontSize: 16,
               }}
             >
               {preview.aiComment}
@@ -186,6 +204,7 @@ export default function Analyze() {
                 borderRadius: 8,
                 cursor: transitioning ? "default" : "pointer",
                 position: "relative",
+                fontSize: 16, // ボタンのフォントを16に
               }}
             >
               {transitioning ? (
@@ -214,8 +233,25 @@ export default function Analyze() {
         お客様のデータが外部と共有されることはございませんので、安心してご利用下さい。
       </p>
 
+      {/* footer copyright */}
+      <div
+        style={{
+          position: "fixed",
+          left: 12,
+          bottom: 8,
+          color: "#444",
+          fontSize: 12,
+          opacity: 0.95,
+          fontFamily: "system-ui",
+        }}
+      >
+        © 2025 NowMe. All rights reserved.
+      </div>
+
       <style jsx>{`
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        textarea::placeholder { font-size: 16px; }
+        button { font-family: inherit; }
       `}</style>
     </main>
   );
