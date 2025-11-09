@@ -147,7 +147,7 @@ export default function ResultPage() {
                 lineHeight: 1.4,
               }}
             >
-              📊 日記からわかるあなたの思考
+              📊 日記からわかるあなたの分析結果
             </h1>
           )}
 
