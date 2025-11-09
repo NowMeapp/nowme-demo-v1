@@ -147,7 +147,7 @@ export default function ResultPage() {
                 lineHeight: 1.4,
               }}
             >
-              📊 日記からわかるあなたの分析結果
+              📊 日記からわかるあなたの思考
             </h1>
           )}
 
@@ -201,7 +201,9 @@ export default function ResultPage() {
 
           {/* 新しい文言（フォローボタンの前） */}
           <div style={{ marginTop: 6, marginBottom: 10, color: "#444", fontSize: 14, fontWeight: 700 }}>
-            もうすぐNowMeアプリベータ版が登場予定🚀
+            もうすぐNowMeアプリベータ版が登場🚀
+            <br />
+            日記の中に隠れた「あなたらしさ」をAIが読み解き、自分を深く知るきっかけをつくります。
             <br />
             先行案内は公式SNSでチェック！
           </div>

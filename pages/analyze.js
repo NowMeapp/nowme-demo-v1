@@ -85,7 +85,7 @@ export default function Analyze() {
 
   return (
     <main style={{ maxWidth: 720, width: "100%", margin: "0 auto", padding: 16, fontFamily: "system-ui", boxSizing: "border-box" }}>
-      <h1 style={{ fontSize: 30, fontWeight: 700, marginBottom: 8 }}>🧠 あなたの日記を10秒で整理・分析</h1>
+      <h1 style={{ fontSize: 30, fontWeight: 700, marginBottom: 8 }}>🧠 あなたの日記を10秒で整理・思考分析</h1>
       <p style={{ color: "#666", marginBottom: 12 }}>
         貼り付け → まずは<strong>カテゴリ・タイトル・一言コメント</strong>を表示するよ。
       </p>
