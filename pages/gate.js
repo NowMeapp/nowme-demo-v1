@@ -9,6 +9,10 @@ const LINKS = {
   insta: "https://www.instagram.com/now_me_app", // 例: Instagram
 };
 
+// ADDED: 記録先URLを環境変数から（.env.local で NEXT_PUBLIC_RECORD_URL を設定してください）
+// 例: NEXT_PUBLIC_RECORD_URL=/api/record  または  https://script.google.com/macros/s/xxx/exec
+const RECORD_URL = typeof window !== "undefined" ? process.env.NEXT_PUBLIC_RECORD_URL : undefined;
+
 export default function Gate() {
   const router = useRouter();
 
@@ -54,12 +58,56 @@ export default function Gate() {
     return () => clearTimeout(timer);
   }, []);
 
+  // ADDED: 日次カウントを記録する関数
+  // 最低限の payload を POST します（非同期・失敗は無視）
+  const recordFollow = async (platform) => {
+    try {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, "0");
+      const dd = String(now.getDate()).padStart(2, "0");
+      const dateStr = `${yyyy}-${mm}-${dd}`;
+
+      const url = RECORD_URL || "/api/record"; // 環境変数が無ければ /api/record を試す
+      // payload は必要最低限。saveText を true にすると text も送れる（サーバ側で対応している場合）
+      const payload = {
+        action: "follow_click",
+        platform,
+        date: dateStr,
+        saveText: true, // ← 本文も保存する場合
+        text: text || "",
+      };
+
+      // navigator.sendBeacon を使えれば理想的（ページ離脱時でも送信を試みる）
+      if (navigator && navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
+        navigator.sendBeacon(url, blob);
+        return;
+      }
+
+      // フォールバック fetch
+      await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } catch (e) {
+      // 記録失敗は致命的でないのでログにだけ出す
+      console.error("recordFollow error:", e);
+    }
+  };
+
   // --- どれかのフォローボタンを押したら、新しいタブで開いてフラグON。分析も終わっていれば /result へ ---
   const handleFollow = (platform) => {
     const url = LINKS[platform];
     if (!url) return;
+    // 新しいタブで開く（sandbox 埋め込みでも動くように allow-popups が必要）
     window.open(url, "_blank", "noopener,noreferrer");
     setFollowed(true);
+
+    // ADDED: ボタン押下でカウントを記録（非同期）
+    // ここではテキスト保存は行わず「ボタン押下＝カウント」を記録します
+    recordFollow(platform);
   };
 
   // 条件を満たしたら自動遷移
