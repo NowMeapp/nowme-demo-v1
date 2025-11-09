@@ -78,12 +78,7 @@ export default function Gate() {
         text: text || "",
       };
 
-      // navigator.sendBeacon を使えれば理想的（ページ離脱時でも送信を試みる）
-      if (navigator && navigator.sendBeacon) {
-        const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
-        navigator.sendBeacon(url, blob);
-        return;
-      }
+      
 
       // フォールバック fetch
       await fetch(url, {
