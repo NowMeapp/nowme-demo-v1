@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 const LINKS = {
   line: "https://lin.ee/wwmzy4G", // 例: LINE公式の招待URL
   x: "https://x.com/NowMe_app_", // 例: X(旧Twitter)
-  insta: "https://www.instagram.com/now_me_app", // 例: Instagram
+  insta: "https://www.instagram.com/now_me_app?igsh=MWpsbHoyMGlwd24ybA%3D%3D&utm_source=qr", // 例: Instagram
 };
 
 // ADDED: 記録先URLを環境変数から（.env.local で NEXT_PUBLIC_RECORD_URL を設定してください）

@@ -253,7 +253,7 @@ export default function ResultPage() {
             </button>
 
             <button
-              onClick={() => window.open("https://www.instagram.com/now_me_app", "_blank", "noopener,noreferrer")}
+              onClick={() => window.open("https://www.instagram.com/now_me_app?igsh=MWpsbHoyMGlwd24ybA%3D%3D&utm_source=qr", "_blank", "noopener,noreferrer")}
               style={{
                 background: "linear-gradient(45deg, #f58529, #feda77, #dd2a7b, #8134af, #515bd4)",
                 color: "#fff",
